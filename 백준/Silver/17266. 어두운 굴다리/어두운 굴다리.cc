@@ -8,63 +8,39 @@ using namespace std;
 
 int main()
 {
-	int bridge, m;
-	cin >> bridge >> m;
+    int b_length, l_num;
+    cin >> b_length >> l_num;
 
-	int min_length = 1;
-	int prev_x = 0;
-	for (int i = 0; i < m; i++)
-	{
-		int x;
-		cin >> x;
-
-		int min;
-
-		if (i == m - 1)
-		{
-			// 끝 위치
-			// 이전 위치랑 비교
-			if (m == 1) 
-			{
-				min = x - prev_x;
-				if (min > min_length)
-				{
-					min_length = min;
-				}
-			}
-			else 
-			{
-				min = ceil((x - prev_x) / 2.0);
-				if (min > min_length)
-				{
-					min_length = min;
-				}
-			}
-			// 끝점이랑 비교
-			min = bridge - x;
-			if (min > min_length)
-			{
-				min_length = min;
-			}
-		}
-		else if (i == 0)
-		{
-			// 첫 위치
-			min_length = x;
-		}
-		else
-		{
-			//중간 가로등 사이의 거리
-			double dist = (x - prev_x) / 2.0;
-			min = ceil(dist);
-			if (min > min_length)
-			{
-				min_length = min;
-			}
-		}
-
-		prev_x = x;
-	}
-
-	cout << min_length;
+    int min_length = 0;
+    int prev_x = 0;
+    int min;
+    int x;
+    
+    // 첫 가로등과 시작점의 거리를 잼
+    cin >> x;
+    min_length = x - prev_x;
+    
+    // 두번째 가로등부터 사이 거리를 잼
+    for (int i = 1; i < l_num; i++)
+    {
+        cin >> x;
+        
+        //중간 가로등 사이의 거리
+        min = ceil((x - prev_x) == 0 ? 0 : (x - prev_x) / 2.0);
+        
+        if (min > min_length)
+        {
+            min_length = min;
+        }
+        
+        prev_x = x;
+    }
+    
+    // 마지막 가로등과 끝점의 거리를 잼
+    min = b_length - x;
+    if(min_length < min){
+        min_length = min;
+    }
+    
+    cout << min_length;
 }
